@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
 
-import get
-import find
-import cv2
-import os
 import json
+import os
+
+import cv2
 from pyautogui import sleep
-from win32 import win32gui, win32api
+from win32 import win32api, win32gui
+
+import find
+import get
+from dropreport import dropreport
 from preload import preload
 from resolution import *
-from dropreport import dropreport
-
 
 index, stageCode2Id = preload(label)
 

@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from PyQt5.QtWidgets import QApplication
-from QImage2Mat import QImage2Mat
-from win32 import win32gui
-from resolution import *
-import cv2
-import sys
 import ctypes
+import sys
+
+import cv2
+from PyQt5.QtWidgets import QApplication
+from win32 import win32gui
+
 import find
+from QImage2Mat import QImage2Mat
+from resolution import *
 
 
 def image(hwnd):

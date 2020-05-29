@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import sys
 import ctypes.wintypes
-from win32 import win32gui, win32api
+import sys
+
+from win32 import win32api, win32gui
 from win32.lib import win32con
 
 hwnd_title = {}

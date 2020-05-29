@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
-import requests
+import json
 import os
 import sys
-import json
 from time import sleep
-from resolution import hwnd, esc
+
+import requests
+
+from resolution import esc, hwnd
 
 PenguinID = ""
 
@@ -41,6 +43,7 @@ objective = json.loads(f.read())
 f.close()
 for name, obj in objective["drops"].items():
     if obj != 0:
+        name = f"【{name}】"
         space = 20 - len(name.encode('GBK')) + len(name)
         print(f"{name:<{space}s}{0:>3d}/{obj:>3d}{0:>13.2%}")
 for i in range(40):
