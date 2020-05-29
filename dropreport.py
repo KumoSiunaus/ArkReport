@@ -32,7 +32,7 @@ while 1:
         sleep(3)
 
 for i in range(40):
-    print(chr(8212), end="")
+    print("-", end="")
 print("")
 f = open("objective.json", encoding="utf-8")
 objective = json.loads(f.read())
@@ -42,7 +42,7 @@ for name, obj in objective["drops"].items():
         space = 20 - len(name.encode('GBK')) + len(name)
         print(f"{name:<{space}s}{0:>3d}/{obj:>3d}{0:>13.2%}")
 for i in range(40):
-    print(chr(8212), end="")
+    print("-", end="")
 print("")
 print(f"已周回              {0:>3d}", end="")
 
@@ -57,7 +57,7 @@ def dropreport(report, count):
     else:
         print(f"已登录为：PenguinID# {PenguinID}")
     for i in range(40):
-        print(chr(8212), end="")
+        print("-", end="")
     print("")
 
     for item in index.values():
@@ -77,7 +77,7 @@ def dropreport(report, count):
             space = 20 - len(name.encode('GBK')) + len(name)
             print(f"{name:<{space}s}{quantity:>3d}{droprate:>17.2%}")
     for i in range(40):
-        print(chr(8212), end="")
+        print("-", end="")
     print("")
     print(f"已周回              {count:>3d}", end="")
 
