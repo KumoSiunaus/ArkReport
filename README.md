@@ -1,7 +1,7 @@
 # ArkReport
 明日方舟掉落检测 数据提供至企鹅物流 | Drop Check of Arknights, data to Penguin Statistics
 ## 0x00 Introduction
-本项目是基于OCR与Template Matching的明日方舟掉落识别工具。所收集的掉落数据通过API全部提交至企鹅物流数据统计(https://penguin-stats.io/)，旨在通过自动提交掉落报告，提供更多掉落样本，为广大博士提供更精确的掉落率数据。
+本项目是基于OCR与Template Matching的明日方舟掉落识别工具。所收集的掉落数据通过API全部提交至企鹅物流数据统计(https://penguin-stats.io/)， 旨在通过自动提交掉落报告，提供更多掉落样本，为广大博士提供更精确的掉落率数据。
 
 ## 0x01 Installation
 安装依赖
