@@ -1,10 +1,20 @@
 # -*- coding: utf-8 -*-
 
 import sys
-import pyautogui
 import ctypes.wintypes
 from win32 import win32gui, win32api
 from win32.lib import win32con
+
+hwnd_title = {}
+
+
+def get_all_hwnd(hwnd, mouse):
+    if win32gui.IsWindow(hwnd) and win32gui.IsWindowEnabled(hwnd) and win32gui.IsWindowVisible(hwnd):
+        if win32gui.GetWindowText(hwnd) != "":
+            hwnd_title.update({win32gui.GetWindowText(hwnd): hwnd})
+
+
+win32gui.EnumWindows(get_all_hwnd, 0)
 
 
 def get_child_windows(hwnd):
@@ -84,17 +94,34 @@ def adapt():
     drop.set_size_per((0, 200/941), childhwnd_size)
 
 
-if win32gui.FindWindow(None, "明日方舟 - MuMu模拟器"):
-    label = "CN"
-    hwnd = win32gui.FindWindow(None, "明日方舟 - MuMu模拟器")
-elif win32gui.FindWindow(None, "アークナイツ - MuMu模拟器"):
-    label = "JP"
-    hwnd = win32gui.FindWindow(None, "アークナイツ - MuMu模拟器")
-else:
-    print("未找到正在运行程序")
-    print("Program Not Found")
+label = "CN"
+
+with open("simulator.txt", encoding="utf-8") as f:
+    simulator = f.readlines()
+    for i, v in enumerate(simulator):
+        simulator[i] = simulator[i].strip("\n")
+
+hwnd = 0
+for s in simulator:
+    for t in hwnd_title:
+        if s in t:
+            hwnd = hwnd_title[t]
+
+if hwnd == 0:
+    print("未找到正在运行的模拟器程序。")
+    print("这可能是因为：")
+    print("1) 模拟器分辨率设置不正确：请调整分辨率比例为2:1（如2160*1080）")
+    print("2) 模拟器未加入列表：请将窗口标题内的模拟器名称写入simulator.txt文件内")
     sys.exit(0)
-childhwnd = get_child_windows(hwnd)[0]
+
+childhwndList = get_child_windows(hwnd)
+
+for h in childhwndList:
+    pos = get_window_pos(h)
+    width = pos[3] - pos[2]
+    height = pos[1] - pos[0]
+    if height * 2 == width:
+        childhwnd = h
 
 hwnd_size = block()
 childhwnd_size = block()

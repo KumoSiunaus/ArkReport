@@ -6,6 +6,7 @@ import cv2
 import os
 import json
 from pyautogui import sleep
+from win32 import win32gui, win32api
 from preload import preload
 from resolution import *
 from dropreport import dropreport
@@ -75,5 +76,8 @@ if __name__ == "__main__":
         report = dropcheck(img)
         count += 1
         dropreport(report, count)
+        win32gui.ShowWindow(hwnd, 3)
+        win32api.keybd_event(0, 0, 0, 0)
+        win32gui.SetForegroundWindow(hwnd)
         print()
         sleep(60)
