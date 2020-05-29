@@ -76,5 +76,4 @@ if __name__ == "__main__":
         count += 1
         dropreport(report, count)
         print()
-        esc.press(hwnd)
         sleep(60)
