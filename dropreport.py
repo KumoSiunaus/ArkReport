@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+#coding: utf-8
 
 import json
 import os
@@ -6,13 +6,16 @@ import sys
 from time import sleep
 
 import requests
+from win32 import win32api
 
-from resolution import esc, hwnd
+from adapter import esc, focus, hwnd
 
 PenguinID = ""
 
-while 1:
+while True:
+
     os.system("cls")
+
     if os.path.exists("PenguinID.dat"):
         with open("PenguinID.dat") as f:
             PenguinID = f.read()
@@ -20,6 +23,7 @@ while 1:
         PenguinID = input("请输入PenguinID：")
     respond = requests.post(
         "https://penguin-stats.io/PenguinStats/api/v2/users", data=PenguinID)
+
     if respond.status_code == 200:
         os.system("cls")
         print(f"已登录为：PenguinID# {PenguinID}")
@@ -37,19 +41,22 @@ while 1:
 
 for i in range(40):
     print("-", end="")
-print("")
-f = open("objective.json", encoding="utf-8")
-objective = json.loads(f.read())
-f.close()
-for name, obj in objective["drops"].items():
-    if obj != 0:
-        name = f"【{name}】"
-        space = 20 - len(name.encode('GBK')) + len(name)
-        print(f"{name:<{space}s}{0:>3d}/{obj:>3d}{0:>13.2%}")
+print()
+
+with open("objective.json", encoding="utf-8") as f:
+    objective = json.loads(f.read())
+
+for item_, quantity_ in objective["drops"].items():
+    if quantity_ != 0:
+        item_ = f"【{item_}】"
+        space = 20 - len(item_.encode('GBK')) + len(item_)
+        print(f"{item_:<{space}s}{0:>3d}/{quantity_:>3d}{0:>13.2%}")
+
 for i in range(40):
     print("-", end="")
-print("")
-print(f"已周回              {0:>3d}", end="")
+print()
+
+print(f"已周回              {0:>3d}", end="", flush=True)
 
 
 def dropreport(report, count):
@@ -58,8 +65,10 @@ def dropreport(report, count):
     index = report[0]
     data = report[1]
 
-    def report_screen():
+    def report_to_screen():
+
         os.system("cls")
+
         if PenguinID == "":
             print("未登录 PenguinID#")
         else:
@@ -73,26 +82,28 @@ def dropreport(report, count):
                 name = "【" + item["name"] + "】"
                 quantity = item["quantity"]
                 objective = item["objective"]
-                droprate = quantity / count
+                drop_rate = quantity / count
                 space = 20 - len(name.encode('GBK')) + len(name)
                 if "·" in name:
                     space += 1
                 print(
-                    f"{name:<{space}s}{quantity:>3d}/{objective:>3d}{droprate:>13.2%}")
+                    f"{name:<{space}s}{quantity:>3d}/{objective:>3d}{drop_rate:>13.2%}"
+                )
 
         for item in index.values():
             if item["quantity"] != 0 and item["objective"] == 0:
                 name = "【" + item["name"] + "】"
                 quantity = item["quantity"]
-                droprate = quantity / count
+                drop_rate = quantity / count
                 space = 20 - len(name.encode('GBK')) + len(name)
                 if "·" in name:
                     space += 1
-                print(f"{name:<{space}s}{quantity:>3d}{droprate:>17.2%}")
+                print(f"{name:<{space}s}{quantity:>3d}{drop_rate:>17.2%}")
         for i in range(40):
             print("-", end="")
-        print("")
-        print(f"已周回              {count:>3d}", end="")
+        print()
+
+        print(f"已周回              {count:>3d}", end="", flush=True)
 
     url = "https://penguin-stats.io/PenguinStats/api/v2/report"
     cookie = {"userID": PenguinID}
@@ -104,17 +115,10 @@ def dropreport(report, count):
         with open("PenguinID.dat", "w") as f:
             f.write(PenguinID)
 
+    report_to_screen()
     if status_code == 201:
-        esc.press(hwnd)
-        report_screen()
-        sleep(1)
-        print(f"         汇报成功")
-        sleep(5)
-        report_screen()
+        print(f"         汇报成功", end="", flush=True)
     else:
-        esc.press(hwnd)
-        report_screen()
-        sleep(1)
-        print(f"         汇报失败")
-        sleep(5)
-        report_screen()
+        print(f"         汇报失败", end="", fulsh=True)
+    focus(hwnd)
+    esc.press(hwnd)
