@@ -434,10 +434,9 @@ async def img_analyse(signal):
         img = Img(await simulator.screenshot())
         if img is None: continue
         if result := await Result.preanalyse(img):
-            await asyncio.sleep(2)
+            await asyncio.sleep(5)
             simulator.swipe((result.img.width - 10, result.baseline_h[TOP]),
                             (result.baseline_h[LEFT], result.baseline_h[TOP]))
-            await asyncio.sleep(3)
             img = Img(await simulator.screenshot())
             if res := await Result.analyse(img):
                 data, display = res
